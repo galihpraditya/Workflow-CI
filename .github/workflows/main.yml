@@ -2,40 +2,52 @@ name: MLflow Training Workflow
 
 on:
   push:
-    branches: [ "master", "main" ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  training_job:
+  train:
+    name: Run ML training and upload artifacts
     runs-on: ubuntu-latest
-
     steps:
-    # 1. Ambil kode dari repository
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # 2. Siapkan Python 3.9
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    # 3. Install Library 
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r MLProject/requirements.txt
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-    # 4. Jalankan MLflow Project
-    - name: Run Model Training
-      run: |
-        cd MLProject
-        mlflow run . --no-conda --env-manager=local
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    # 5. Upload Artefak
-    - name: Upload Experiment Results
-      if: always() 
-      uses: actions/upload-artifact@v3
-      with:
-        name: mlflow-experiment-results
-        path: MLProject/mlruns/
+      - name: Run training (example)
+        env:
+          MLFLOW_TRACKING_URI: ./mlruns
+        run: |
+          # Replace the following with your actual training command
+          # Example: run a training script that logs to mlflow
+          mkdir -p mlruns
+          python train.py --output-dir mlruns || (echo "training failed" && exit 1)
+
+      - name: List mlruns for debug
+        run: |
+          ls -la mlruns || true
+
+      - name: Upload MLflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mlflow-artifacts
+          path: mlruns
