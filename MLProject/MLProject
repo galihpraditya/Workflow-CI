@@ -1,7 +1,38 @@
-name: Churn_Prediction_CI
+name: Churn_Prediction_MLProject
 
 conda_env: conda.yaml
 
 entry_points:
   main:
-    command: "python modelling.py"
+    parameters:
+      data_path:
+        type: string
+        default: "churn_data_preprocessing"
+      model_type:
+        type: string
+        default: "all"
+      experiment_name:
+        type: string
+        default: "Eksperimen_Churn_Prediction_Galih"
+    command: "python modelling.py --data-path {data_path} --model-type {model_type} --experiment-name {experiment_name}"
+
+  train_lr:
+    parameters:
+      data_path:
+        type: string
+        default: "churn_data_preprocessing"
+    command: "python modelling.py --data-path {data_path} --model-type lr"
+
+  train_rf:
+    parameters:
+      data_path:
+        type: string
+        default: "churn_data_preprocessing"
+    command: "python modelling.py --data-path {data_path} --model-type rf"
+
+  train_gb:
+    parameters:
+      data_path:
+        type: string
+        default: "churn_data_preprocessing"
+    command: "python modelling.py --data-path {data_path} --model-type gb"
