@@ -1,4 +1,4 @@
-name: Basic ML Training Workflow
+name: ML Training Workflow
 
 on:
   push:
@@ -27,4 +27,4 @@ jobs:
       - name: Execute MLflow Project
         run: |
           cd MLProject
-          mlflow run . --no-conda
+          mlflow run .
