@@ -40,7 +40,7 @@ jobs:
           # Replace the following with your actual training command
           # Example: run a training script that logs to mlflow
           mkdir -p mlruns
-          python train.py --output-dir mlruns || (echo "training failed" && exit 1)
+          python modelling.py --output-dir mlruns || (echo "training failed" && exit 1)
 
       - name: List mlruns for debug
         run: |
