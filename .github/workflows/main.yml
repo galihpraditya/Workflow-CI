@@ -27,4 +27,4 @@ jobs:
       - name: Execute MLflow Project
         run: |
           cd MLProject
-          mlflow run .
+          mlflow run . --no-conda
