@@ -57,4 +57,4 @@ jobs:
             . "/opt/conda/etc/profile.d/conda.sh"
           fi
           # Run default MLflow project entry (MLproject should define default entry point)
-          mlflow run . -v
+          mlflow run . --verbose
