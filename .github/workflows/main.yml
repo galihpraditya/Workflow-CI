@@ -2,59 +2,45 @@ name: MLflow CI (Conda)
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
-  mlflow-conda:
-    name: Run MLflow project (Conda)
+  train_with_conda:
+    name: Run MLflow Project with Conda
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Miniconda
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: 3.9
           auto-update-conda: true
+          python-version: 3.9
+          activate-environment: "" 
 
-      - name: Ensure conda is initialized
-        shell: bash
-        run: |
-          # Source conda initialization script if present so `conda activate` / `source activate` work
-          if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
-            . "$HOME/miniconda3/etc/profile.d/conda.sh"
-          elif [ -f "/opt/conda/etc/profile.d/conda.sh" ]; then
-            . "/opt/conda/etc/profile.d/conda.sh"
-          fi
-          conda --version
-          echo "Conda initialized."
-
-      - name: Install repo requirements (if any)
-        shell: bash
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          fi
-
-      - name: Install MLflow
+      - name: Install MLflow System-wide
         run: |
           pip install mlflow
 
-      - name: Run MLflow project (let MLflow manage conda env)
-        shell: bash
-        env:
-          MLFLOW_TRACKING_URI: "file://${{ github.workspace }}/mlruns"
+      - name: Check Folder Structure
         run: |
-          # Ensure conda initialization is available in this shell (MLflow will call `source activate <env>`)
-          if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
-            . "$HOME/miniconda3/etc/profile.d/conda.sh"
-          elif [ -f "/opt/conda/etc/profile.d/conda.sh" ]; then
-            . "/opt/conda/etc/profile.d/conda.sh"
-          fi
-          # Run default MLflow project entry (MLproject should define default entry point)
+          ls -R
+          echo "Current directory: $(pwd)"
+
+      - name: Execute Training
+        run: |
+          cd MLProject
           mlflow run . --verbose
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: training-results-conda
+          path: MLProject/mlruns/
+          retention-days: 5
