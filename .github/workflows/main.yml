@@ -21,18 +21,15 @@ jobs:
         with:
           auto-update-conda: true
           python-version: 3.9
-          activate-environment: "churn-ci-env" 
+          activate-environment: "churn-ci-env"
 
-      - name: Install MLflow System-wide
+      - name: Install MLflow
+        shell: bash -l {0}
         run: |
           pip install mlflow
 
-      - name: Check Folder Structure
-        run: |
-          ls -R
-          echo "Current directory: $(pwd)"
-
       - name: Execute Training
+        shell: bash -l {0}
         run: |
           cd MLProject
           mlflow run .
