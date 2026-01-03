@@ -5,7 +5,6 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 
-# Konfigurasi Global
 TRACKING_URI = "file:./mlruns"
 EXPERIMENT_NAME = "Eksperimen_Churn_Prediction_Galih"
 
@@ -54,7 +53,7 @@ def main():
 
     # 2. Lokasi Data
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    data_path = os.path.join(base_dir, '..', 'preprocessing', 'churn_data_preprocessing')
+    data_path = os.path.join(base_dir, 'churn_data_preprocessing')
     
     print(f"Mencari data di: {data_path}")
     X_train, X_test, y_train, y_test = get_dataset(data_path)

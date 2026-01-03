@@ -1,4 +1,4 @@
-name: Churn_Prediction_CI
+name: Telco_Churn_Pipeline
 
 conda_env: conda.yaml
 

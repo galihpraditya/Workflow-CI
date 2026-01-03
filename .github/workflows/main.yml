@@ -1,30 +1,37 @@
-name: ML Training Workflow
+name: MLflow CI (Conda)
 
 on:
   push:
-    branches: [ "master", "main" ]
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
-  train_model:
+  train_with_conda:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v5
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: '3.9'
-          cache: 'pip'
+          auto-update-conda: true
+          python-version: 3.9
 
-      - name: Install Dependencies
+      - name: Install MLflow System-wide
         run: |
-          pip install --upgrade pip
-          pip install -r MLProject/requirements.txt
+          pip install mlflow
 
-      - name: Execute MLflow Project
+      - name: Execute Training
         run: |
           cd MLProject
           mlflow run .
+
+      - name: Upload Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: training-results
+          path: MLProject/mlruns/
+          retention-days: 5

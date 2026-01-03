@@ -1,4 +1,4 @@
-name: churn-env
+name: telco-churn-env
 channels:
   - defaults
 dependencies:
@@ -6,8 +6,4 @@ dependencies:
   - pip
   - pip:
     - mlflow
-    - pandas
-    - scikit-learn
-    - numpy
-    - matplotlib
-    - seaborn
+    - -r requirements.txt
