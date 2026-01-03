@@ -32,7 +32,7 @@ jobs:
         shell: bash -l {0}
         run: |
           cd MLProject
-          mlflow run .
+          mlflow run . --experiment-name Eksperimen_Churn_Prediction_Galih
 
       - name: Upload Artifacts
         if: always()

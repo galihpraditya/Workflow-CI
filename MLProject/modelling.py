@@ -37,7 +37,7 @@ def run_training_cycle(model, run_title, X_train, y_train):
     """
     mlflow.autolog(log_models=True)
 
-    with mlflow.start_run(run_name=run_title):
+    with mlflow.start_run(run_name=run_title, nested=True):
         print(f"--> Memulai Training: {run_title}")
         
         model.fit(X_train, y_train)
