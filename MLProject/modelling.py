@@ -43,7 +43,7 @@ def main():
     print(f"Tracking URI: {mlflow.get_tracking_uri()}")
     print(f"{'='*60}\n")
 
-    data_dir = Path(__file__).parent.parent / "Preprocessing" / "data_preprocessing"
+    data_dir = Path(__file__).parent.parent / "data_preprocessing"
 
     if not data_dir.exists():
         print(f"Error: Data directory tidak ditemukan: {data_dir}")
