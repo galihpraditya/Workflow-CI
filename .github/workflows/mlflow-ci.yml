@@ -60,7 +60,7 @@ jobs:
           test -f MLProject/MLproject && echo "[OK] MLproject found" || echo "[ERROR] MLproject NOT found"
           test -f MLProject/conda.yaml && echo "[OK] conda.yaml found" || echo "[ERROR] conda.yaml NOT found"
           test -f MLProject/modelling.py && echo "[OK] modelling.py found" || echo "[ERROR] modelling.py NOT found"
-          test -d MLProject/telco_preprocessing && echo "[OK] Dataset folder found" || echo "[ERROR] Dataset folder NOT found"
+          test -d MLProject/data_preprocessing && echo "[OK] Dataset folder found" || echo "[ERROR] Dataset folder NOT found"
 
       - name: Run Model Training with MLflow Project
         env:
@@ -69,7 +69,7 @@ jobs:
           echo "Starting MLflow Project training..."
           cd MLProject
           mlflow run . \
-            -P data_path=telco_preprocessing \
+            -P data_path=data_preprocessing \
             -P model_type=all \
             -P experiment_name=GitHub_Actions_CI \
             --env-manager=local
