@@ -1,5 +1,7 @@
 import sys
 from pathlib import Path
+import matplotlib
+matplotlib.use('Agg')
 import mlflow
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
