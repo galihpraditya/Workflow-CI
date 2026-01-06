@@ -57,7 +57,7 @@ jobs:
           ls -la MLProject/
           echo ""
           echo "Checking required files..."
-          test -f MLProject/MLproject && echo "[OK] MLproject found" || echo "[ERROR] MLproject NOT found"
+          test -f MLProject/MLProject && echo "[OK] MLproject found" || echo "[ERROR] MLproject NOT found"
           test -f MLProject/conda.yaml && echo "[OK] conda.yaml found" || echo "[ERROR] conda.yaml NOT found"
           test -f MLProject/modelling.py && echo "[OK] modelling.py found" || echo "[ERROR] modelling.py NOT found"
           test -d MLProject/data_preprocessing && echo "[OK] Dataset folder found" || echo "[ERROR] Dataset folder NOT found"
