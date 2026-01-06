@@ -24,7 +24,7 @@ def load_preprocessed_data(data_dir: Path):
 
 
 def train_model_simple(model, model_name: str, X_train, X_test, y_train, y_test):
-    with mlflow.start_run(run_name=model_name):
+    with mlflow.start_run(run_name=model_name, nested=True):
         print(f"\n{'='*60}")
         print(f"Training {model_name}...")
         print(f"{'='*60}")
@@ -38,7 +38,6 @@ def train_model_simple(model, model_name: str, X_train, X_test, y_train, y_test)
     return model
 def main():
     experiment_name = "Telco_Churn_Prediction_Galih-Praditya-Kurniawan"
-    mlflow.set_experiment(experiment_name)
 
     print(f"\n{'='*60}")
     print(f"MLflow Experiment: {experiment_name}")
